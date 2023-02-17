@@ -7,6 +7,7 @@ import moment from "moment";
 
 const Formtable = (props) => {
   const [form] = Form.useForm();
+
   const columns = [
     {
       title: "姓名",
@@ -17,13 +18,6 @@ const Formtable = (props) => {
       title: "年龄",
       dataIndex: "age",
       key: "age",
-      render: (text, record, index) => {
-        return (
-          <Form.Item name={["table", index, "age"]}>
-            <Input placeholder="请输入年龄" />
-          </Form.Item>
-        );
-      },
     },
     {
       title: "日期",
@@ -41,7 +35,6 @@ const Formtable = (props) => {
 
   useEffect(() => {
     // ## 初始化表格数据(在没有请求到数据前有一行做展示)
-
     form.setFieldsValue({
       table: [
         {
@@ -69,6 +62,24 @@ const Formtable = (props) => {
             key: "2",
             name: "胡彦祖",
             age: 42,
+            date: [
+              moment("2022-02-01", "YYYY-MM-DD"),
+              moment("2022-03-31", "YYYY-MM-DD"),
+            ],
+          },
+          {
+            key: "3",
+            name: "胡英军",
+            age: 80,
+            date: [
+              moment("2022-02-01", "YYYY-MM-DD"),
+              moment("2022-03-31", "YYYY-MM-DD"),
+            ],
+          },
+          {
+            key: "4",
+            name: "胡图图",
+            age: 20,
             date: [
               moment("2022-02-01", "YYYY-MM-DD"),
               moment("2022-03-31", "YYYY-MM-DD"),
