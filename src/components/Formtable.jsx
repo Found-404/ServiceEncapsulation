@@ -18,6 +18,7 @@ const Formtable = (props) => {
       title: "年龄",
       dataIndex: "age",
       key: "age",
+      sorter: (a, b) => a.age - b.age,
     },
     {
       title: "日期",

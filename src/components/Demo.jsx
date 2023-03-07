@@ -1,5 +1,5 @@
-import React from "react";
-import { Form, Table, Input, Space, Button, InputNumber } from "antd";
+import React, { useEffect } from "react";
+import { Form, Table, Input, Space, Button, InputNumber, Select } from "antd";
 // import styler from './index.less';
 export default function EditTable(props) {
   const [form] = Form.useForm();
@@ -44,7 +44,18 @@ export default function EditTable(props) {
               name={[record.name, "age"]}
               // fieldKey={[record.fieldKey, "age"]}
             >
-              <Input placeholder="place input age" />
+              <Select
+                options={[
+                  {
+                    value: 0,
+                    label: "A",
+                  },
+                  {
+                    value: 1,
+                    label: "B",
+                  },
+                ]}
+              />
             </Form.Item>
           );
         },
@@ -80,42 +91,68 @@ export default function EditTable(props) {
         },
       },
       {
+        title: "text",
+        dataIndex: "key",
+        key: "key",
+        render: (a, b, c) => {
+          console.log(a, b, c);
+          return a;
+          // return (
+          //   <Form.Item
+          //     rules={rules}
+          //     name={[record.name, "text"]}
+          //     // fieldKey={[record.fieldKey, "name"]}
+          //   >
+          //     <Input placeholder="place input name" bordered={false} />
+          //   </Form.Item>
+          // );
+        },
+      },
+      {
         title: "操作",
         dataIndex: "action",
         key: "action",
         render: (text, record) => {
           return (
-            <Space>
-              <i
-                type="text"
-                onClick={() => add()}
-                className="iconfont iconaddData"
-              />
-              <i
-                type="text"
-                onClick={() => remove(record.name)}
-                className="iconfont icondelete"
-              />
-            </Space>
+            <Button
+              type="text"
+              onClick={() => remove(record.name)}
+              className="iconfont icondelete"
+            >
+              删除
+            </Button>
           );
         },
       },
     ];
   };
 
+  useEffect(() => {
+    let arr = Array.from({ length: 20 }).map((item, index) => {
+      return {
+        key: index,
+        name: index,
+        age: 0,
+        address: index,
+        text: "123",
+      };
+    });
+    form.setFieldValue("table", arr);
+  }, []);
+
   return (
     <div>
-      <Form
-        form={form}
-        initialValues={{ table: [{ name: "1" }, { name: "2" }] }}
-        onFinish={onFinish}
-      >
+      <Form form={form} onFinish={onFinish}>
         <Form.Item label colon={false}>
           <Form.List name="table">
             {(fields, { add, remove }) => {
+              console.log(fields);
               return (
                 <div>
                   <Table dataSource={fields} columns={columns(add, remove)} />
+                  <Button type="primary" onClick={add}>
+                    增加
+                  </Button>
                 </div>
               );
             }}
