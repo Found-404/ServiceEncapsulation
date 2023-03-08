@@ -1,5 +1,5 @@
-import { Button, Form, Input, Popconfirm, Select, Table, Checkbox } from "antd";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { Button, Form, Input, Select, Table, Checkbox, Space } from "antd";
+import React, { useContext, useRef, useState } from "react";
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -62,7 +62,6 @@ const EditableCell = ({
   const checkChange = async () => {
     try {
       const values = await form.validateFields();
-      console.log(values);
       handleSave({
         ...record,
         ...values,
@@ -75,9 +74,7 @@ const EditableCell = ({
   if (editable) {
     childNode = (
       <Form.Item
-        style={{
-          margin: 0,
-        }}
+        noStyle
         name={dataIndex}
         initialValue={children[1]}
         rules={[
@@ -93,9 +90,10 @@ const EditableCell = ({
   }
   if (select) {
     childNode = (
-      <Form.Item initialValue={children[1]} name={dataIndex}>
+      <Form.Item name={dataIndex} noStyle>
         <Select
           onChange={selectChange}
+          style={{ width: "120px" }}
           options={[
             {
               value: "0",
@@ -112,7 +110,7 @@ const EditableCell = ({
   }
   if (check) {
     childNode = (
-      <Form.Item name={dataIndex} initialValue={children[1]}>
+      <Form.Item name={dataIndex} noStyle>
         <Checkbox.Group>
           <Checkbox value={1} onChange={checkChange}>
             必填
@@ -123,33 +121,29 @@ const EditableCell = ({
   }
   return <td {...restProps}>{childNode}</td>;
 };
-const Text = () => {
+const EditTable = () => {
   const [dataSource, setDataSource] = useState([
     {
       key: 0,
       name: "Edward King 0",
-      age: "32",
+      age: "11",
       address: "0",
       check: [1],
     },
     {
       key: 1,
       name: "Edward King 1",
-      age: "32",
+      age: "22",
       address: "1",
       check: [1],
     },
   ]);
   const [count, setCount] = useState(2);
   // 返回Table所选数据key
-  const [returnselectedRowKeys, setreturnselectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const onreyurnSelectChange = (newSelectedRowKeys, datas) => {
-    console.log("出参勾选", newSelectedRowKeys, datas);
-    setreturnselectedRowKeys(newSelectedRowKeys);
-  };
-  const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
+    setSelectedRowKeys(newSelectedRowKeys);
   };
 
   const defaultColumns = [
@@ -173,26 +167,12 @@ const Text = () => {
       dataIndex: "check",
       check: true,
     },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      render: (_, record) =>
-        dataSource.length >= 1 ? (
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => handleDelete(record.key)}
-          >
-            <a>Delete</a>
-          </Popconfirm>
-        ) : null,
-    },
   ];
   const handleAdd = () => {
     const newData = {
       key: count,
       name: `Edward King ${count}`,
       age: "32",
-      address: "0",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
@@ -232,21 +212,17 @@ const Text = () => {
   });
 
   const returnRowSelection = {
-    selectedRowKeys: returnselectedRowKeys,
+    selectedRowKeys,
     onChange: onreyurnSelectChange,
   };
   return (
     <div>
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        Add a row
-      </Button>
-      <Button onClick={() => console.log(dataSource)}>提交</Button>
+      <Space>
+        <Button onClick={handleAdd} type="primary">
+          Add a row
+        </Button>
+        <Button onClick={() => console.log(dataSource)}>提交</Button>
+      </Space>
       <Table
         pagination={{
           pageSize: 4,
@@ -262,4 +238,4 @@ const Text = () => {
     </div>
   );
 };
-export default Text;
+export default EditTable;

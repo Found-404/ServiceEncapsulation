@@ -1,17 +1,17 @@
 import React from "react";
-import Formtable from "./components/Formtable";
-import Datepickerdemo from "./components/Demo";
-import CheckboxForm from "./components/CheckboxForm";
-import Text from "./components/text";
+import Formtable from "./components/Table/Formtable";
+import Datepickerdemo from "./components/Table/Demo"
+import CheckboxForm from "./components/CheckboxForm/CheckboxForm";
+import EditTable from "./components/Table/EditTable";
 
 const App = () => {
   return (
     <div>
-      <header>测试Demo</header>
+      <h1>测试Demo</h1>
       {/* <Formtable></Formtable> */}
       {/* <Datepickerdemo></Datepickerdemo> */}
       {/* <CheckboxForm></CheckboxForm> */}
-      <Text />
+      <EditTable />
     </div>
   );
 };
