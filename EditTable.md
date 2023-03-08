@@ -1,7 +1,9 @@
 ## 支持分页勾选的Table可编辑单元格
 
+
 ```js
-import { Button, Form, Input, Select, Table, Checkbox, Space } from "antd";
+
+import { Button, Form, Input, Popconfirm, Select, Table } from "antd";
 import React, { useContext, useRef, useState } from "react";
 
 
@@ -25,48 +27,17 @@ const EditableCell = ({
   children,
   dataIndex,
   record,
-  check,
   handleSave,
   ...restProps
 }) => {
-  //   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
   const form = useContext(EditableContext);
-  //   useEffect(() => {
-  //     if (editing) {
-  //       inputRef.current.focus();
-  //     }
-  //   }, [editing]);
-  //   const toggleEdit = () => {
-  //     // setEditing(!editing);
-  //     form.setFieldsValue({
-  //       [dataIndex]: record[dataIndex],
-  //     });
-  //   };
+
+  /**
+   * 改变数据后触发handleSave保存重置数据
+   * @param
+   */
   const save = async () => {
-    try {
-      const values = await form.validateFields();
-      //   toggleEdit();
-      handleSave({
-        ...record,
-        ...values,
-      });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
-  };
-  const selectChange = async () => {
-    try {
-      const values = await form.validateFields();
-      handleSave({
-        ...record,
-        ...values,
-      });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
-  };
-  const checkChange = async () => {
     try {
       const values = await form.validateFields();
       handleSave({
@@ -81,7 +52,9 @@ const EditableCell = ({
   if (editable) {
     childNode = (
       <Form.Item
-        noStyle
+        style={{
+          margin: 0,
+        }}
         name={dataIndex}
         initialValue={children[1]}
         rules={[
@@ -97,10 +70,21 @@ const EditableCell = ({
   }
   if (select) {
     childNode = (
-      <Form.Item name={dataIndex} noStyle>
+      <Form.Item
+        style={{
+          margin: 0,
+        }}
+        name={dataIndex}
+        initialValue={children[1]}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+        ]}
+      >
         <Select
-          onChange={selectChange}
-          style={{ width: "120px" }}
+          onChange={save}
           options={[
             {
               value: "0",
@@ -110,58 +94,55 @@ const EditableCell = ({
               value: "1",
               label: "第二条",
             },
+            {
+              value: "2",
+              label: "第三条",
+            },
           ]}
         />
       </Form.Item>
     );
   }
-  if (check) {
-    childNode = (
-      <Form.Item name={dataIndex} noStyle>
-        <Checkbox.Group>
-          <Checkbox value={1} onChange={checkChange}>
-            必填
-          </Checkbox>
-        </Checkbox.Group>
-      </Form.Item>
-    );
-  }
   return <td {...restProps}>{childNode}</td>;
 };
-const Text = () => {
+const EditTable = () => {
+  // 初始数据
   const [dataSource, setDataSource] = useState([
     {
-      key: 0,
+      key: "0",
       name: "Edward King 0",
-      age: "11",
-      address: "0",
-      check: [1],
+      age: "32",
     },
     {
-      key: 1,
+      key: "1",
       name: "Edward King 1",
-      age: "22",
-      address: "1",
-      check: [1],
+      age: "32",
     },
   ]);
   const [count, setCount] = useState(2);
-  // 返回Table所选数据key
+
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const onreyurnSelectChange = (newSelectedRowKeys, datas) => {
+  /**
+   * 勾选数据
+   * @param
+   */
+  const onSelectChange = (newSelectedRowKeys) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  /**
+   * 删除数据
+   * @param
+   */
   const handleDelete = (key) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => key.key === item.key);
-    // const item = newData[index];
-    newData.splice(index + 1, 0, {
-      ...key,
-      key: newData.length,
-      add: true,
-    });
+    const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
   };
 
@@ -182,20 +163,23 @@ const Text = () => {
       select: true,
     },
     {
-      title: "check",
-      dataIndex: "check",
-      check: true,
-    },
-    {
       title: "operation",
       dataIndex: "operation",
       render: (_, record) => (
-        <Space>
-          <a onClick={() => handleDelete(record)}>添加</a>
-        </Space>
+        <Popconfirm
+          title="Sure to delete?"
+          onConfirm={() => handleDelete(record.key)}
+        >
+          <a>删除</a>
+        </Popconfirm>
       ),
     },
   ];
+
+  /**
+   * 添加数据
+   * @param
+   */
   const handleAdd = () => {
     const newData = {
       key: count,
@@ -205,6 +189,11 @@ const Text = () => {
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
   };
+
+  /**
+   * 编辑保存数据
+   * @param
+   */
   const handleSave = (row) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -215,14 +204,16 @@ const Text = () => {
     });
     setDataSource(newData);
   };
+
   const components = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
   };
+
   const columns = defaultColumns.map((col) => {
-    if (!col.editable && !col.select && !col.check) {
+    if (!col.editable && !col.select) {
       return col;
     }
     return {
@@ -231,18 +222,12 @@ const Text = () => {
         record,
         editable: col.editable,
         select: col.select,
-        check: col.check,
         dataIndex: col.dataIndex,
         title: col.title,
         handleSave,
       }),
     };
   });
-
-  const returnRowSelection = {
-    selectedRowKeys,
-    onChange: onreyurnSelectChange,
-  };
   return (
     <div>
       <Button
@@ -252,15 +237,14 @@ const Text = () => {
           marginBottom: 16,
         }}
       >
-        Add a row
+        增加
       </Button>
-      <Button onClick={() => console.log(dataSource)}>提交</Button>
       <Table
         pagination={{
           pageSize: 4,
           hideOnSinglePage: true,
         }}
-        rowSelection={returnRowSelection}
+        rowSelection={rowSelection}
         components={components}
         rowClassName={() => "editable-row"}
         bordered
@@ -270,6 +254,7 @@ const Text = () => {
     </div>
   );
 };
-export default Text;
+export default EditTable;
+
 
 ```
