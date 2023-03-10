@@ -96,19 +96,20 @@ const EditableCell = ({
   }
   return <td {...restProps}>{childNode}</td>;
 };
-const EditTable = () => {
-  const [dataSource, setDataSource] = useState([
-    {
-      key: "0",
-      name: "Edward King 0",
-      age: "32",
-    },
-    {
-      key: "1",
-      name: "Edward King 1",
-      age: "32",
-    },
-  ]);
+const EditTable = (props) => {
+  const { dataSource, setDataSource, ...otherProps } = props;
+  // const [dataSource, setDataSource] = useState([
+  //   {
+  //     key: "0",
+  //     name: "Edward King 0",
+  //     age: "32",
+  //   },
+  //   {
+  //     key: "1",
+  //     name: "Edward King 1",
+  //     age: "32",
+  //   },
+  // ]);
   const [count, setCount] = useState(2);
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -230,6 +231,7 @@ const EditTable = () => {
         增加
       </Button>
       <Table
+        {...otherProps}
         pagination={{
           pageSize: 4,
           hideOnSinglePage: true,
