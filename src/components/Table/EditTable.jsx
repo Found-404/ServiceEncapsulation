@@ -231,7 +231,6 @@ const EditTable = (props) => {
         增加
       </Button>
       <Table
-        {...otherProps}
         pagination={{
           pageSize: 4,
           hideOnSinglePage: true,
@@ -242,6 +241,7 @@ const EditTable = (props) => {
         bordered
         dataSource={dataSource}
         columns={columns}
+        {...otherProps}
       />
     </div>
   );
