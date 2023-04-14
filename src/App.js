@@ -3,7 +3,8 @@ import Formtable from "./components/Table/Formtable";
 import Datepickerdemo from "./components/Table/Demo"
 import CheckboxForm from "./components/CheckboxForm/CheckboxForm";
 import EditTable from "./components/Table/EditTable";
-import Formily from "./components/Formily/Formily";
+import Formily from "./components/Formily/Demo";
+import Reactive from "./components/Formily/Reactive";
 
 const App = () => {
   return (
@@ -13,7 +14,8 @@ const App = () => {
       {/* <Datepickerdemo></Datepickerdemo> */}
       {/* <CheckboxForm></CheckboxForm> */}
       {/* <EditTable /> */}
-      <Formily />
+      {/* <Formily /> */}
+      <Reactive />
     </div>
   );
 };

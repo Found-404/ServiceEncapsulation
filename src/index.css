@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.css';
+@import '@formily/antd/dist/antd.css'
 /* .leftBox {
     border: 1px solid #ccc;
 }
