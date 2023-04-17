@@ -11,7 +11,7 @@ const dispose = autorun(() => {
       bb: 0,
     })
   );
-  console.log(obs1.aa, obs2.bb++);
+  // console.log(obs1.aa, obs2.bb++);
 });
 
 const Reactive = () => {

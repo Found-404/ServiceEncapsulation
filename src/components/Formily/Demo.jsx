@@ -300,11 +300,11 @@ const Formily = () => {
                 />
               </SchemaField.Array>
             </SchemaField>
-            {/* <FormButtonGroup.FormItem>
+            <FormButtonGroup.FormItem>
               <Submit block size="large">
                 提交
               </Submit>
-            </FormButtonGroup.FormItem> */}
+            </FormButtonGroup.FormItem>
           </Form>
         </Spin>
       </Card>
