@@ -7,6 +7,7 @@ import Formily from "./components/Formily/Demo";
 import Reactive from "./components/Formily/Reactive";
 import Memo from './components/Memo'
 import UseTime from './components/UseTime'
+import Upload from "./components/Upload";
 
 const App = () => {
   return (
@@ -19,7 +20,8 @@ const App = () => {
       {/* <Formily /> */}
       {/* <Reactive /> */}
       {/* <Memo /> */}
-      <UseTime />
+      {/* <UseTime /> */}
+      <Upload />
     </div>
   );
 };
