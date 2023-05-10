@@ -1,5 +1,5 @@
 import { Button, Form, Input, Popconfirm, Select, Table } from "antd";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, memo } from "react";
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -78,15 +78,15 @@ const EditableCell = ({
           onChange={save}
           options={[
             {
-              value: "0",
+              value: 0,
               label: "第一条",
             },
             {
-              value: "1",
+              value: 1,
               label: "第二条",
             },
             {
-              value: "2",
+              value: 2,
               label: "第三条",
             },
           ]}
@@ -96,90 +96,44 @@ const EditableCell = ({
   }
   return <td {...restProps}>{childNode}</td>;
 };
-const EditTable = (props) => {
-  const { dataSource, setDataSource, ...otherProps } = props;
-  // const [dataSource, setDataSource] = useState([
-  //   {
-  //     key: "0",
-  //     name: "Edward King 0",
-  //     age: "32",
-  //   },
-  //   {
-  //     key: "1",
-  //     name: "Edward King 1",
-  //     age: "32",
-  //   },
-  // ]);
-  const [count, setCount] = useState(2);
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
-  /**
-   * 勾选数据
-   * @param
-   */
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
+export const useEditTable = (dataSource, setDataSource) => {
+  const handleDelete = (key) => {
+    const newData = dataSource.filter((item) => item.key !== key);
+    setDataSource(newData);
   };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
+  const handleAdd = (newData) => {
+    setDataSource([...dataSource, newData]);
   };
+  return [handleDelete, handleAdd];
+};
+
+const EditTable = memo((props) => {
+  const { dataSource, setDataSource, columns, ...otherProps } = props;
+  // const [count, setCount] = useState(2);
 
   /**
    * 删除数据
    * @param
    */
-  const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
-  };
-
-  const defaultColumns = [
-    {
-      title: "name",
-      dataIndex: "name",
-      width: "30%",
-      editable: true,
-    },
-    {
-      title: "age",
-      dataIndex: "age",
-    },
-    {
-      title: "address",
-      dataIndex: "address",
-      select: true,
-    },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      render: (_, record) => (
-        <Popconfirm
-          title="Sure to delete?"
-          onConfirm={() => handleDelete(record.key)}
-        >
-          <a>删除</a>
-        </Popconfirm>
-      ),
-    },
-  ];
+  // const handleDelete = (key) => {
+  //   const newData = dataSource.filter((item) => item.key !== key);
+  //   setDataSource(newData);
+  // };
 
   /**
    * 添加数据
    * @param
    */
-  const handleAdd = () => {
-    const newData = {
-      key: count,
-      name: `Edward King ${count}`,
-      age: "32",
-    };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
-  };
+  // const handleAdd = () => {
+  //   const newData = {
+  //     key: count,
+  //     name: `Edward King ${count}`,
+  //     age: "32",
+  //   };
+  //   setDataSource([...dataSource, newData]);
+  //   setCount(count + 1);
+  // };
 
   /**
    * 编辑保存数据
@@ -203,47 +157,36 @@ const EditTable = (props) => {
     },
   };
 
-  const columns = defaultColumns.map((col) => {
-    if (!col.editable && !col.select) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        editable: col.editable,
-        select: col.select,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave,
-      }),
-    };
-  });
   return (
     <div>
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        增加
-      </Button>
       <Table
         pagination={{
           pageSize: 4,
           hideOnSinglePage: true,
         }}
-        rowSelection={rowSelection}
         components={components}
         rowClassName={() => "editable-row"}
         bordered
         dataSource={dataSource}
-        columns={columns}
+        columns={columns?.map((col) => {
+          if (!col.editable && !col.select) {
+            return col;
+          }
+          return {
+            ...col,
+            onCell: (record) => ({
+              record,
+              editable: col.editable,
+              select: col.select,
+              dataIndex: col.dataIndex,
+              title: col.title,
+              handleSave,
+            }),
+          };
+        })}
         {...otherProps}
       />
     </div>
   );
-};
+});
 export default EditTable;
