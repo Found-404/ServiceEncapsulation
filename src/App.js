@@ -11,14 +11,15 @@ import React from "react";
 // import CustomFormComp from "./components/CustomFormComp";
 // import Mymodal from "./components/Mymodal";
 // import MemoTwo from './components/MemoTwo'
-import Toast from "./components/Toast";
+// import Toast from "./components/Toast";
+import EditTable from './components/EditTableTwo'
 
 
 const App = () => {
   return (
     <div>
       <h1>测试Demo</h1>
-      <Toast />
+      <EditTable />
       {/* <MemoTwo /> */}
       {/* <Formtable></Formtable> */}
       {/* <Datepickerdemo></Datepickerdemo> */}
