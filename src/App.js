@@ -1,4 +1,5 @@
 import React from "react";
+import { Space, Divider } from "antd";
 // import Formtable from "./components/Table/Formtable";
 // import Datepickerdemo from "./components/Table/Demo"
 // import CheckboxForm from "./components/CheckboxForm/CheckboxForm";
@@ -12,25 +13,50 @@ import React from "react";
 // import Mymodal from "./components/Mymodal";
 // import MemoTwo from './components/MemoTwo'
 // import Toast from "./components/Toast";
-// import EditTable from './components/EditTableTwo'
+import EditTable from './components/EditTableTwo'
 import Echarts from './components/Echarts'
+import { Link, Route, Routes } from "react-router-dom";
+
 
 
 const App = () => {
+
+  const LinkArr = [
+    {
+      to: "/echarts",
+      label: "图表",
+      element: <Echarts />
+    },
+    {
+      to: "/EditTable",
+      label: "可编辑Table",
+      element: <EditTable />
+    }
+  ]
+
   return (
     <div>
       <h1>测试Demo</h1>
-      <Echarts />
-      {/* <MemoTwo /> */}
-      {/* <Formtable></Formtable> */}
-      {/* <Datepickerdemo></Datepickerdemo> */}
-      {/* <CheckboxForm></CheckboxForm> */}
-      {/* <EditTableDemo /> */}
-      {/* <Formily /> */}
-      {/* <Reactive /> */}
-      {/* <Memo /> */}
-      {/* <UseTime /> */}
-      {/* <Mymodal /> */}
+      <Space style={{ marginBottom: '20px' }}>
+        {
+          LinkArr.map((ele, index) => {
+            return <div key={index} >
+              <Link to={ele.to}>{ele.label}</Link>
+              {
+                index !== LinkArr.length - 1 && <Divider type="vertical" />
+              }
+            </div>
+          })
+        }
+      </Space>
+      <Routes>
+        {
+          LinkArr.map((ele, index) => {
+            return <Route key={index} path={ele.to} element={ele.element} />
+          })
+        }
+      </Routes>
+
     </div>
   );
 };

@@ -6,10 +6,14 @@ import App from './App';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 
+import { BrowserRouter } from 'react-router-dom';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ConfigProvider locale={zhCN}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ConfigProvider>
 );

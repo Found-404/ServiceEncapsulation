@@ -2,7 +2,6 @@ import { Button, Form, Input, InputNumber, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
 
-
 const EditTable = (props) => {
   const [form] = Form.useForm();
   const [dataSource, setDataSource] = useState([]);
@@ -33,8 +32,7 @@ const EditTable = (props) => {
                       // form.setFieldsValue({
                       //   [`age_${b.key}`]: b.age,
                       // })
-                      
-                    })
+                    });
                   }}
                 />
               </Form.Item>
@@ -109,7 +107,6 @@ const EditTable = (props) => {
   const onFinish = () => {
     // ## 点击Submit提交后
     console.log(dataSource);
-    console.log(form.getFieldsValue());
   };
 
   return (
