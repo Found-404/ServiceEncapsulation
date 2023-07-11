@@ -12,14 +12,15 @@ import React from "react";
 // import Mymodal from "./components/Mymodal";
 // import MemoTwo from './components/MemoTwo'
 // import Toast from "./components/Toast";
-import EditTable from './components/EditTableTwo'
+// import EditTable from './components/EditTableTwo'
+import Echarts from './components/Echarts'
 
 
 const App = () => {
   return (
     <div>
       <h1>测试Demo</h1>
-      <EditTable />
+      <Echarts />
       {/* <MemoTwo /> */}
       {/* <Formtable></Formtable> */}
       {/* <Datepickerdemo></Datepickerdemo> */}
