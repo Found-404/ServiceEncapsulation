@@ -28,10 +28,16 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "clear": "rimraf node_modules",
-    "build": "react-scripts build",
+    "start": "npm run start:dev",
+    "start:dev": "cross-env REACT_APP_ENV=dev react-scripts start",
+    "start:pre": "cross-env REACT_APP_ENV=pre react-scripts start",
+    "start:prod": "cross-env REACT_APP_ENV=prod react-scripts start",
+    "build": "npm run build:dev",
+    "build:dev": "cross-env REACT_APP_ENV=dev react-scripts build",
+    "build:pre": "cross-env REACT_APP_ENV=pre react-scripts build",
+    "build:prod": "cross-env REACT_APP_ENV=prod react-scripts build",
     "test": "react-scripts test",
+    "clear": "rimraf node_modules",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
