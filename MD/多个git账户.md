@@ -42,7 +42,7 @@ User Found-404
 
 在 clone 代码的时候格式是这样的，比如`git@codeup.aliyun.com:xxxx/xxxx/xxxx.git`
 
-其中**codeup.aliyun.com**就对应了 config 中的 Host，只需要将 config 重复的 Host 修改即可
+其中**codeup.aliyun.com**就对应了 config 中的 Host，只需要将 config 重复的 Host 修改, 然后clone代码的格式修改成：`git@aliyvn:xxxx/xxxx/xxxx.git`即可
 
 ```bash
 # aliyvnOld
