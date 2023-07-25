@@ -15,6 +15,7 @@ import { Space, Divider } from "antd";
 // import Toast from "./components/Toast";
 import EditTable from './components/EditTableTwo'
 import Echarts from './components/Echarts'
+import MergeTable from "./components/MergeTable";
 import { Link, Route, Routes } from "react-router-dom";
 
 
@@ -30,7 +31,12 @@ const App = () => {
       to: "/EditTable",
       label: "可编辑Table",
       element: <EditTable />
-    }
+    },
+    {
+      to: "/mergeTable",
+      label: "合并Table",
+      element: <MergeTable />
+    },
   ]
 
   return (
