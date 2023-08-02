@@ -3,8 +3,10 @@ import React, { memo, useState, useMemo, useCallback } from 'react'
 
 
 const Children = memo((props) => {
-    console.log('子组件', parseInt(Math.random() * 10));
-    return <div>children---{props.num}</div>
+    const { toChild, num } = props
+    console.log('子组件num', num);
+
+    return <div onClick={() => toChild(num)}>children---{num}</div>
 })
 
 
@@ -16,13 +18,17 @@ const MemoTwo = () => {
 
 
     const memoCount3 = useMemo(() => {
-        return parseInt(Math.random() * 10) * num;
+        // return parseInt(Math.random() * 10) * num;
+        return num
     }, [name]);
 
 
-    const toChild = useCallback(() => {
-        console.log('去子组件')
-    }, [name])
+    const toChild = useCallback((num) => {
+        console.log('去子组件', num)
+    }, [])
+    // const toChild = (num) => {
+    //     console.log('去子组件', num)
+    // }
 
 
 
@@ -36,7 +42,7 @@ const MemoTwo = () => {
                 if (num > 5) {
                     setName('countTwo')
                 }
-            }}>重新Render1</Button>
+            }}>重新Render{num}</Button>
         </div>
     )
 }

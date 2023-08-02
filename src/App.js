@@ -11,7 +11,7 @@ import { Space, Divider } from "antd";
 // import Upload from "./components/Upload";
 // import CustomFormComp from "./components/CustomFormComp";
 // import Mymodal from "./components/Mymodal";
-// import MemoTwo from './components/MemoTwo'
+import MemoTwo from './components/MemoTwo'
 // import Toast from "./components/Toast";
 import EditTable from './components/EditTableTwo'
 import Echarts from './components/Echarts'
@@ -36,6 +36,11 @@ const App = () => {
       to: "/mergeTable",
       label: "合并Table",
       element: <MergeTable />
+    },
+    {
+      to: "/MemoTwo",
+      label: "MemoTwo",
+      element: <MemoTwo />
     },
   ]
 
