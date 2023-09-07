@@ -16,6 +16,7 @@ import MemoTwo from './components/MemoTwo'
 import EditTable from './components/EditTableTwo'
 import Echarts from './components/Echarts'
 import MergeTable from "./components/MergeTable";
+import LinkageSelect from "./components/LinkageSelect";
 import { Link, Route, Routes } from "react-router-dom";
 
 
@@ -41,6 +42,11 @@ const App = () => {
       to: "/MemoTwo",
       label: "MemoTwo",
       element: <MemoTwo />
+    },
+    {
+      to: "/linkageSelect",
+      label: "联动Select",
+      element: <LinkageSelect />
     },
   ]
 
