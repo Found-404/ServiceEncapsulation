@@ -17,6 +17,7 @@ import EditTable from './components/EditTableTwo'
 import Echarts from './components/Echarts'
 import MergeTable from "./components/MergeTable";
 import LinkageSelect from "./components/LinkageSelect";
+import MarkdownReact from "./components/MarkdownReact";
 import { Link, Route, Routes } from "react-router-dom";
 
 
@@ -47,6 +48,11 @@ const App = () => {
       to: "/linkageSelect",
       label: "联动Select",
       element: <LinkageSelect />
+    },
+    {
+      to: "/MarkdownReact",
+      label: "MarkdownReact",
+      element: <MarkdownReact />
     },
   ]
 
