@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 // 设置高亮样式
 import { xonokai } from "react-syntax-highlighter/dist/esm/styles/prism";
 import md from "../../../MD/CustomFormComp.md";
+import fileDisplay from "../../MdPage";
 import "github-markdown-css";
 
 const Code = {
@@ -27,6 +28,9 @@ const Code = {
 };
 const MarkdownReact = () => {
   // console.log("pathStr", fileDisplay("../../../MD"));
+  // fileDisplay("../../../MD", (files) => {
+  //   console.log(files);
+  // });
   const [currentArticle, setCurrentArticle] = useState({
     url: "",
     content: "",
