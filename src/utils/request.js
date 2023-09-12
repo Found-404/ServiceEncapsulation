@@ -1,7 +1,7 @@
 //引入我们下载好的 Axios 库
 import axios from 'axios'
 
-import { baseURL } from '../../config/constant'
+import { baseURL } from '../../request/constant'
 
 
 
