@@ -28,9 +28,6 @@ const Code = {
 };
 const MarkdownReact = () => {
   // console.log("pathStr", fileDisplay("../../../MD"));
-  // fileDisplay("../../../MD", (files) => {
-  //   console.log(files);
-  // });
   const [currentArticle, setCurrentArticle] = useState({
     url: "",
     content: "",
@@ -42,6 +39,9 @@ const MarkdownReact = () => {
     setCurrentArticle({ ...currentArticle, content, url });
   };
   useEffect(() => {
+    fileDisplay("../../../MD", (files) => {
+      console.log(files);
+    });
     changeCurrentArticle(md);
   }, []);
 
