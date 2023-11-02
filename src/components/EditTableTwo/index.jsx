@@ -23,7 +23,28 @@ const EditTable = (props) => {
         return (
           <>
             <Form form={form}>
-              <Form.Item name={`age_${b.key}`} initialValue={a}>
+              <Form.Item
+                name={`age_${b.key}`}
+                initialValue={a}
+                rules={[
+                  { required: true, message: "此项为必填项" },
+                  {
+                    pattern: /\s\S+|S+\s|\S/,
+                    message: "不可只输入空格",
+                  },
+                  {
+                    validator: (rule, value) => {
+                      const reg = new RegExp(
+                        /^((0{1}\.[1-9]{1,}\d*)|(0{1}\.0{1,}[1-9]{1,}\d*)|([1-9]\d*\.{1}\d{1,})|([1-9]+\d*))$/
+                      );
+                      if (!reg.test(value)) {
+                        return Promise.reject("请输入正数");
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
+              >
                 <Input
                   onBlur={(e) => {
                     form.validateFields().then(async () => {
@@ -51,7 +72,13 @@ const EditTable = (props) => {
         return (
           <>
             <Form form={form}>
-              <Form.Item name={`test_${b.key}`} initialValue={a}>
+              <Form.Item
+                name={`test_${b.key}`}
+                initialValue={a}
+                rules={[
+                  { required: true, message: "Please input your username!" },
+                ]}
+              >
                 <InputNumber
                   onBlur={(e) => {
                     form.validateFields().then(async () => {
@@ -106,12 +133,12 @@ const EditTable = (props) => {
     }, 1000);
   }, []);
 
-  const onFinish = () => {
+  const onFinish = async () => {
     // ## 点击Submit提交后
     console.log(dataSource);
-    getUserList().then((ele) => {
-      console.log(ele);
-    });
+    await form.validateFields(); // 表单校验
+    const data = await getUserList(); // 接口提交
+    console.log(data);
   };
 
   return (
